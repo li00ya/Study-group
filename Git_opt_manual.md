@@ -53,4 +53,5 @@ git push origin name
 
 ####
 ###5、合并自己分支到主分支
-#登录github网页，在本项目仓库主要，点击branchs，然后点击右侧的merge请求，依次填写就行。
+#登录github网页，在本项目仓库主页，点击branchs，然后点击右侧的New pull request请求，依次填写，
+#然后点击Create pull request，然后等待分支合并即可。
