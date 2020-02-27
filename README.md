@@ -6,7 +6,10 @@ Study group of chicken dinner team
 ###第一次同步，需要克隆远程git仓库  
 #步骤: 进入工作目录，然后使用克隆命令(后面的网址为我们小分队学习小组git仓库链接)  
 
+#克隆master分支
 git clone https://github.com/li00ya/Study-group.git  
+#克隆liya分支
+git clone -b liya https://github.com/li00ya/Study-group.git
 
 #执行完上面的命令后，就会在当前目录下生成一个Study-group文件夹，然后再里面进行操作就行  
 ##然后，创建自己的分支,进入项目文件，使用  
