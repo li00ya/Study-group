@@ -6,7 +6,10 @@ Study group of chicken dinner team
 ###第一次同步，需要克隆远程git仓库  
 #步骤: 进入工作目录，然后使用克隆命令(后面的网址为我们小分队学习小组git仓库链接)  
 
+#克隆master分支
 git clone https://github.com/li00ya/Study-group.git  
+#克隆liya分支
+git clone -b liya https://github.com/li00ya/Study-group.git
 
 #执行完上面的命令后，就会在当前目录下生成一个Study-group文件夹，然后再里面进行操作就行  
 ##然后，创建自己的分支,进入项目文件，使用  
@@ -55,6 +58,9 @@ git commit -m "add the note about modify"
 git push origin name  
 #推送自己的分支到远程仓库  
 #在commit的时候，附加信息要尽量如实反映本次提交的修改。  
+#提交远程仓库时，若遇到 ‘non-fast-forward’ 错误提示，且确认自己本地代码为最新代码时，可使用-f参数强行使本地仓库覆盖远端要同步的分支
+git push -f origin name
+
 
 ####
 ###5、合并自己分支到主分支  
