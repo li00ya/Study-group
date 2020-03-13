@@ -48,45 +48,91 @@ static int32_t test_call_cmd(void* cmd, void* path, void* filename, uint8_t spac
 	return 0;
 }
 
+static int32_t test_unzip_package(void* filename, void* path)
+{
+	if (access(path, 0)) {
+		printf("Create %s folder\n", (int8_t *)path);
+		test_call_cmd("mkdir -p", path, NULL, 0);
+	}
+
+	test_call_cmd("rm -f", path, "*", 0);
+	test_call_cmd("unzip -o -q -d", path, filename, 1);
+	test_call_cmd("rm -f", NULL, filename, 0);
+
+	return 0;
+}
+
 static void test_usage(int8_t* tip)
 {
 	printf("Usage: %s <param>\n"
 			"\nparam:\n"
-			"\tmkdir\t[path]	create a folder.\n"
-			"\trmdir\t[path]	remove the folder of create.\n"
-			"\tpath		if not set, default path = test/\n", tip);
+			"\tmkdir\t[path]\tcreate a folder.\n"
+			"\trmdir\t[path]\tremove the folder of create.\n"
+			"\tunzip\t[path] [package]\tdecompressed a zip package.\n"
+			"\tpackage\t to be decompressed.\n"
+			"\tpath\ta folder(if not set, default path = test/)\n", tip);
 }
 
-int32_t main(int32_t ac, int8_t** av)
+int32_t main(int32_t ac, int8_t* av[])
 {
 	int8_t *dir = "mkdir -p";
 	int8_t *rmdir = "rm -r";
+	int8_t *ptr;
 	int8_t path[256] = "test/";
+	int8_t name[256] = {0};
 
 	if (ac < 2) {
 		test_usage(av[0]);
 		return 0;
 	}
 
-	ac -= 2;
-	if (ac > 0) {
-		memset(path, 0, sizeof(path));
-		memcpy(path, av[2], strlen(av[2]));
+	ptr = strrchr(av[1], 'u');
+	if (NULL == ptr) {
+		if (3 == ac) {
+			memset(path, 0, sizeof(path));
+			snprintf(path, sizeof(path), "%s", av[2]);
+		}
+	} else {
+		ptr = strrchr(av[2], '.');
+		if (NULL != ptr) {
+			*ptr = 0;
+			snprintf(name, sizeof(name), "%s.zip", av[2]);
+			*ptr = '.';
+		} else {	
+			ptr = strrchr(av[3], '.');
+			if (NULL == ptr) {
+				printf("input package filename error.\n");
+				return -1;
+			}
+			*ptr = 0;
+			snprintf(name, sizeof(name), "%s.zip", av[3]);
+			*ptr = '.';
+			memset(path, 0, sizeof(path));
+			snprintf(path, sizeof(path), "%s", av[2]);
+		}
+
+		if (access(name, 0)) {
+			printf(" %s not find.\n", name);
+			return -1;
+		}
 	}
 
 	switch (*av[1]) {
 	case 'm':
 		test_call_cmd(dir, path, NULL, 0);
-		test_call_cmd("ls -l", NULL, NULL, 0);
 		break;
 	case 'r':
 		test_call_cmd(rmdir, path, NULL, 0);
-		test_call_cmd("ls -l", NULL, NULL, 0);
+		break;
+	case 'u':
+		test_unzip_package(name, path);
 		break;
 	default:
 		test_usage(av[0]);
 		break;
 	}
+
+	test_call_cmd("ls -l", NULL, NULL, 0);
 
 	return 0;
 }
