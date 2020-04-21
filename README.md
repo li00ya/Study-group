@@ -68,10 +68,19 @@ git push -f origin name
 #然后点击Create pull request，然后等待分支合并即可。  
 
 ####
+###其他使用技巧
+#
 ###更改远程仓库分支名
 #更改本地仓库分支名
 git branch -m old-name new-name
 #删除远程旧分支
 git push origin :old-name
 #推送本地所有分支
-git push --all
+git push --alla
+
+###存储git同步账号密码到本地
+##输入一次账号密码，以后本机同步代码免除输入
+git config --global credential.helper store
+git push origin 分支名
+##完成之后，该命令会在本地当前用户宿主目录(~/.git-credential)文件里存储账号密码
+
