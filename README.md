@@ -68,10 +68,39 @@ git push -f origin name
 #然后点击Create pull request，然后等待分支合并即可。  
 
 ####
+###其他使用技巧
+#
 ###更改远程仓库分支名
 #更改本地仓库分支名
 git branch -m old-name new-name
 #删除远程旧分支
 git push origin :old-name
 #推送本地所有分支
-git push --all
+git push --alla
+
+###存储git同步账号密码到本地
+##输入一次账号密码，以后本机同步代码免除输入
+git config --global credential.helper store
+git push origin 分支名
+##完成之后，该命令会在本地当前用户宿主目录(~/.git-credential)文件里存储账号密码
+
+###修改git配置，同时将代码同步到github和gitee上
+
+##方法一:（一次push， 同时同步到多个远程代码仓库）
+##打开.git/config，在[remote "origin"]下面的url下面，再添加gitee的仓库网址
+##如下：
+##[remote "origin"]
+##	url = https://github.com/xxx.git
+##	url = https://gitee.com/xxx.git
+##	fetch = +refs/heads/*:refs/remotes/origin/*
+##push时，会同时推送到两个仓库
+##
+##方法二:（按名称推送）
+##打开.git/config，将[remote "origin"]改为在[remote "github"]，然后再添加gitee仓库的配置(url和fetch)，改为[remote "gitee"]
+##如下：##[remote "github"]
+##  url = https://github.com/xxx.git
+##  fetch = +refs/heads/*:refs/remotes/origin/*
+##[remote "gitee"]
+##  url = https://gitee.com/xxx.git
+##  fetch = +refs/heads/*:refs/remotes/origin/*
+##push时，选择git push github 分支名，或者git push gitee 分支名
