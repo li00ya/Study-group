@@ -66,3 +66,12 @@ git push -f origin name
 ###5、合并自己分支到主分支  
 #登录github网页，在本项目仓库主页，点击branchs，然后点击右侧的New pull request请求，依次填写，  
 #然后点击Create pull request，然后等待分支合并即可。  
+
+####
+###更改远程仓库分支名
+#更改本地仓库分支名
+git branch -m old-name new-name
+#删除远程旧分支
+git push origin :old-name
+#推送本地所有分支
+git push --all
