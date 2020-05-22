@@ -1,5 +1,6 @@
-#include <stdio.h>
-#include <string.h>
+#include "util/types.h"
+#include "util/string.h"
+#include "util/memory.h"
 
 typedef struct {
 	int* p;
@@ -21,15 +22,15 @@ static void test_tt(test_type_t* tt, int* a)
 */
 static void test_demo1(void)
 {
-	int a[10];
+	int32_t a[10];
 	test_type_t m, n;
 
 	a[3] = 6;
 	test_tt(&m, a);
-	memcpy(&n, &m, sizeof(m));//n的指针也指向a[3]的地址
+	util_memcpy(&n, &m, sizeof(m));//n的指针也指向a[3]的地址
 	a[3] = 10;
 
-	printf("n ptr %d\n", *n.b.p);
+	util_puts("n ptr %d\n", *n.b.p);
 	
 }
 
@@ -37,20 +38,21 @@ static void test_demo1(void)
 **describe:
 **	局部变量直接赋值给指针，导致指针指向内容不确定
 */
-static void test_mode2(char* p)
+static void test_mode2(int8_t* p)
 {
-	char c = 'x';
+	int8_t c = 'x';
 
 	p = &c;
 }
 
-int main(void)
+int32_t main(void)
 {
-	char p;
+	int8_t p = 0;
 
 	test_demo1();
 
 	test_mode2(&p);
-	printf(" p 【%c】\n", p);
+	util_puts(" p 【%c】\n", p);
+
 	return 0;
 }
