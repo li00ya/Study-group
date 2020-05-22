@@ -1,9 +1,8 @@
 #include <stdio.h>
-#include <stdarg.h>
 #include <string.h>
+#include <stdarg.h>
 
-#include "util/string.h"
-
+#include "util/types.h"
 
 void* util_strcpy(void* dst, void* src)
 {
@@ -93,3 +92,28 @@ int32_t util_sscanf(void* buf, int8_t* fmt, ...)
 	return vsscanf(buf, fmt, ap);
 }
 
+int32_t util_puts(int8_t* fmt, ...)
+{
+	va_list ap;
+	
+	va_start(ap, fmt);
+	vprintf((void*)fmt, ap);
+	va_end(ap);
+
+	return 0;
+}
+
+int32_t util_show_hex(int8_t* title, void* buf, uint32_t total)
+{
+	uint32_t idx;
+	uint8_t* data = buf;
+
+	printf("%s(%d):\n\t", title, total);
+	for (idx = 0; idx < total; idx++) {
+		printf("%02hhx", data[idx]);
+		printf("%s", 15 == (idx & 15) ? "\n\t" : ", ");
+	}
+	printf("\n");
+	
+	return 0;
+}

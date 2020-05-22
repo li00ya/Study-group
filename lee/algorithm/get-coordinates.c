@@ -1,6 +1,7 @@
-#include "string.h"
-#include "math.h"
-#include "types.h"
+#include "util/string.h"
+#include "util/math.h"
+#include "util/types.h"
+#include "api/mode.h"
 
 /*快速求直角三角形非直角点坐标		       h
 *参数：                                   |\
@@ -19,12 +20,12 @@
 */
 
 
-int32_t simplified_forward_intersection(lee_point_t* r, lee_point_t* h, lee_point_t* ret, double len)
+int32_t simplified_forward_intersection(info_point_t* r, info_point_t* h, info_point_t* ret, double len)
 {
 	double tan;
 	double x = r->x - h->x;
 	double y = r->y - h->y;
-	double dis = lee_sqrt(x * x + y * y);
+	double dis = util_sqrt(x * x + y * y);
 
 	if (dis < 0.001) {
 		return -1;
@@ -38,9 +39,9 @@ int32_t simplified_forward_intersection(lee_point_t* r, lee_point_t* h, lee_poin
 	return 0;
 }
 
-int32_t main(int32_t argc, int8_t** argv)
+int32_t grid_proc(int32_t argc, int8_t** argv)
 {
-	lee_point_t a, b, c;
+	info_point_t a, b, c;
 	double len = 1.8;
 
 	a.x = 3;
@@ -49,5 +50,32 @@ int32_t main(int32_t argc, int8_t** argv)
 	b.y = 5;
 
 	simplified_forward_intersection(&a, &b, &c, len);
-	lee_puts("c: x %lf, y %lf\n", c.x, c.y);
+	util_puts("c: x %lf, y %lf\n", c.x, c.y);
+
+	return 0;
+}
+
+static int32_t grid_usage(void)
+{
+	util_puts("scene option:\n");
+	util_puts("\ttype\tthe type value as below:\n");
+	util_puts("\t0\ttest hv buffer\n");
+
+	return 0;
+}
+
+static lee_module_t grid_module = {
+	.name = "grid",
+	.usage = grid_usage,
+	.proc = grid_proc,
+};
+
+static void PREP_INIT grid_constructor(void)
+{
+	lee_module_register(LEE_ALG_GRID, &grid_module);
+}
+
+static void PREP_EXIT grid_destructor(void)
+{
+	lee_module_unregister(LEE_ALG_GRID);
 }

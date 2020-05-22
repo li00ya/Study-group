@@ -1,34 +1,28 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdint.h>
+#include "util/math.h"
+#include "util/types.h"
+#include "util/string.h"
 
 typedef struct
 {
-	double x;
-	double y;
-}point_info_t;
-
-typedef struct
-{
-	point_info_t *start;
-	point_info_t *end;
+	info_point_t *start;
+	info_point_t *end;
 }line_vector_t;
 
-static inline void vector_sub(point_info_t* a, point_info_t* b, point_info_t* ret)
+static inline void vector_sub(info_point_t* a, info_point_t* b, info_point_t* ret)
 {
 	ret->x = b->x - a->x;
 	ret->y = b->y - a->y;
 }
 
-static inline double vector_modulo(point_info_t* a)
+static inline double vector_modulo(info_point_t* a)
 {
-	return sqrt(a->x * a->x + a->y * a->y);
+	return util_sqrt(a->x * a->x + a->y * a->y);
 }
 
-int32_t get_intersection(line_vector_t* line1, line_vector_t* line2, point_info_t* ret)
+int32_t get_intersection(line_vector_t* line1, line_vector_t* line2, info_point_t* ret)
 {   
 	double p, q, delt;
-	point_info_t l1, l2;
+	info_point_t l1, l2;
 	
 	vector_sub(line1->end, line1->start, &l1);
 	vector_sub(line2->end, line2->start, &l2);
@@ -38,7 +32,7 @@ int32_t get_intersection(line_vector_t* line1, line_vector_t* line2, point_info_
 	
 	delt = l1.x * l2.y - l1.y * l2.x;
 	
-	if (fabs(delt) < 0.01) {
+	if (util_fabs(delt) < 0.01) {
 	    return -1;
 	}
 	
@@ -52,7 +46,7 @@ int32_t get_intersection(line_vector_t* line1, line_vector_t* line2, point_info_
 double get_angle(line_vector_t* line1, line_vector_t* line2)
 {
 	double denominator, molecular, cos, thet;
-	point_info_t l1, l2;
+	info_point_t l1, l2;
 	
 	vector_sub(line1->end, line1->start, &l1);
 	vector_sub(line2->end, line2->start, &l2);
@@ -65,14 +59,14 @@ double get_angle(line_vector_t* line1, line_vector_t* line2)
 	denominator = vector_modulo(&l1) * vector_modulo(&l2);
 
 	cos = molecular / denominator;
-	thet = acos(cos) * (180 / PI);
+	thet = util_acos(cos) * (180 / PI);
 		
 	return thet > 90 ? 180 - thet : thet;
 }
 
 int32_t main(void)
 {
-	point_info_t p1, p2, p3, p4, ret;
+	info_point_t p1, p2, p3, p4, ret;
 	line_vector_t l1, l2;
 	double tmp;
 
@@ -92,9 +86,9 @@ int32_t main(void)
 	l2.end = &p4;
 
 	tmp = get_angle(&l1, &l2);
-	printf("angle %lf\n", tmp);
+	util_puts("angle %lf\n", tmp);
 
 	get_intersection(&l1, &l2, &ret);
-	printf("intersection %lf, %lf\n", ret.x, ret.y);
+	util_puts("intersection %lf, %lf\n", ret.x, ret.y);
 }
 

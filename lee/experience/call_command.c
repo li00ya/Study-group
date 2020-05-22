@@ -1,10 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-
-typedef unsigned char uint8_t;
-typedef unsigned int uint32_t;
+#include "util/string.h"
+#include "util/memory.h"
+#include "util/types.h"
+#include "util/misc.h"
+#include "util/file.h"
 
 static int32_t test_call_cmd(void* cmd, void* path, void* filename, uint8_t space)
 {
@@ -16,8 +14,8 @@ static int32_t test_call_cmd(void* cmd, void* path, void* filename, uint8_t spac
 		return -1;
 	}
 
-	len = strlen(cmd);
-	memcpy(ptr, cmd, len);
+	len = util_strlen(cmd);
+	util_memcpy(ptr, cmd, len);
 	ptr += len;
 
 	if (' ' != *(ptr - 1)) {
@@ -25,8 +23,8 @@ static int32_t test_call_cmd(void* cmd, void* path, void* filename, uint8_t spac
 	}
 
 	if (NULL != path) {
-		len = strlen(path);
-		memcpy(ptr, path, len);
+		len = util_strlen(path);
+		util_memcpy(ptr, path, len);
 		ptr += len;
 
 		if ('/' != *(ptr - 1)) {
@@ -39,19 +37,19 @@ static int32_t test_call_cmd(void* cmd, void* path, void* filename, uint8_t spac
 	}
 
 	if (NULL != filename) {
-		len = strlen(filename);
-		memcpy(ptr, filename, len);
+		len = util_strlen(filename);
+		util_memcpy(ptr, filename, len);
 	}
 
-	system(command);
+	util_exec(command);
 
 	return 0;
 }
 
 static int32_t test_unzip_package(void* filename, void* path)
 {
-	if (access(path, 0)) {
-		printf("Create %s folder\n", (int8_t *)path);
+	if (util_file_access(path, FILE_FLAG_EXIST)) {
+		util_puts("Create %s folder\n", (int8_t *)path);
 		test_call_cmd("mkdir -p", path, NULL, 0);
 	}
 
@@ -64,7 +62,7 @@ static int32_t test_unzip_package(void* filename, void* path)
 
 static void test_usage(int8_t* tip)
 {
-	printf("Usage: %s <param>\n"
+	util_puts("Usage: %s <param>\n"
 			"\nparam:\n"
 			"\tmkdir\t[path]\tcreate a folder.\n"
 			"\trmdir\t[path]\tremove the folder of create.\n"
@@ -86,33 +84,33 @@ int32_t main(int32_t ac, int8_t* av[])
 		return 0;
 	}
 
-	ptr = strrchr(av[1], 'u');
+	ptr = util_strrchr(av[1], 'u');
 	if (NULL == ptr) {
 		if (3 == ac) {
-			memset(path, 0, sizeof(path));
-			snprintf(path, sizeof(path), "%s", av[2]);
+			util_memset(path, 0, sizeof(path));
+			util_snprintf(path, sizeof(path), "%s", av[2]);
 		}
 	} else {
-		ptr = strrchr(av[2], '.');
+		ptr = util_strrchr(av[2], '.');
 		if (NULL != ptr) {
 			*ptr = 0;
-			snprintf(name, sizeof(name), "%s.zip", av[2]);
+			util_snprintf(name, sizeof(name), "%s.zip", av[2]);
 			*ptr = '.';
 		} else {	
-			ptr = strrchr(av[3], '.');
+			ptr = util_strrchr(av[3], '.');
 			if (NULL == ptr) {
-				printf("input package filename error.\n");
+				util_puts("input package filename error.\n");
 				return -1;
 			}
 			*ptr = 0;
-			snprintf(name, sizeof(name), "%s.zip", av[3]);
+			util_snprintf(name, sizeof(name), "%s.zip", av[3]);
 			*ptr = '.';
-			memset(path, 0, sizeof(path));
-			snprintf(path, sizeof(path), "%s", av[2]);
+			util_memset(path, 0, sizeof(path));
+			util_snprintf(path, sizeof(path), "%s", av[2]);
 		}
 
-		if (access(name, 0)) {
-			printf(" %s not find.\n", name);
+		if (util_file_access(name, 0)) {
+			util_puts(" %s not find.\n", name);
 			return -1;
 		}
 	}
