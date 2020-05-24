@@ -1,6 +1,6 @@
-#include "mode.h"
-#include "string.h"
-#include "types.h"
+#include "api/mode.h"
+#include "util/string.h"
+#include "util/types.h"
 
 
 static lee_module_t* lee_modules[lee_MODE_MAX];

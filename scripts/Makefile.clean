@@ -1,0 +1,24 @@
+
+src := $(obj)
+
+objs :=
+subdirs :=
+
+-include $(src)/Makefile
+include scripts/Makefile.include
+
+subdirs := $(addprefix $(src)/, $(subdirs))
+subdirs := $(strip $(subdirs))
+subprog := $(notdir $(src))
+
+.PHONY: __clean __garbagy $(subdirs)
+
+
+__clean : __garbagy $(subdirs)
+
+$(subdirs) :
+	@make $(clean)=$@
+
+__garbagy :
+	@rm -rf $(src)/*.o $(src)/*.d
+	@rm -rf $(src)/$(subprog)

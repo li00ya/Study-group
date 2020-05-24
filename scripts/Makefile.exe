@@ -1,0 +1,34 @@
+
+src := $(obj)
+
+build_src := $(wildcard $(src)/*.c)
+build_obj := $(build_src:.c=.o)
+extra_objs :=
+
+build_target := $(src)/$(notdir $(src))
+ifeq ("$(origin target)", "command line")
+build_target := $(src)/$(target)
+endif
+
+include scripts/Makefile.include
+-include $(src)/Makefile.build
+
+.PHONY : __build prepare
+
+__build : prepare $(build_target)
+
+$(build_target): $(build_obj) $(TOP_LIB) $(extra_objs)
+	@$(LD_ECHO)
+	@$(CC) -o $@ $^ $(LDFLAGS)
+
+prepare:
+
+-include $(build_obj:.o=.d)
+
+%.o : %.c
+	@$(CC_ECHO)
+	@$(CC_CMD)
+
+%.d : %.c
+	@$(DEP_ECHO)
+	@$(DEP_CMD)
