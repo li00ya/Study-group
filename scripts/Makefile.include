@@ -1,0 +1,18 @@
+build := -s -f scripts/Makefile.build obj
+gen := -s -f scripts/Makefile.exe obj
+clean := -s -f scripts/Makefile.clean obj
+
+CC_ECHO = echo "   CC     $*.o"
+CC_CMD = $(CC) -c $(CFLAGS) -D__NOTDIR_FILE__=\"$(notdir $<)\" -o $@ $<
+
+LD_ECHO = echo "   LD     $@" 
+LD_CMD = $(if $(strip $(obj-y)), $(LD) -r -o $@ $^, rm -rf $@; $(AR) rcs $@)
+
+AR_ECHO = echo "   AR     $@"
+
+DEP_ECHO = echo "   DEP    $@"
+DEP_CMD = set -e; $(CC) -MM $(CFLAGS)) $< > $@.tmp; \
+		sed 's,\($(*F)\)\.o[ :]*,$*.o $@ : ,g' < $@.tmp > $@; \
+		rm -rf $@.tmp
+
+ldobjs := builtin.o

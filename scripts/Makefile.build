@@ -1,0 +1,41 @@
+
+src := $(obj)
+objs :=
+subdirs :=
+
+#add current directory in include directory
+CFLAGS += -I$(src)
+
+include $(src)/Makefile
+include scripts/Makefile.include
+
+objs := $(addprefix $(src)/, $(objs))
+subdirs := $(addprefix $(src)/, $(subdirs))
+subdir_objs := $(addsuffix /$(ldobjs), $(subdirs))
+
+obj-y := $(objs) $(subdir_objs)
+
+build_obj := $(src)/builtin.o
+
+.PHONY: __build $(subdirs)
+
+__build: $(build_obj)
+
+$(build_obj) : $(subdir_objs) $(objs)
+	@$(LD_ECHO)
+	@$(LD_CMD)
+
+$(subdir_objs) : $(subdirs)
+
+$(subdirs) :
+	@make $(build)=$@
+
+-include $(objs:.o=.d)
+
+%.o : %.c
+	@$(CC_ECHO)
+	@$(CC_CMD)
+
+%.d : %.c
+	@$(DEP_ECHO)
+	@$(DEP_CMD)
