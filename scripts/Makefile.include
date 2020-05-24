@@ -11,7 +11,9 @@ LD_CMD = $(if $(strip $(obj-y)), $(LD) -r -o $@ $^, rm -rf $@; $(AR) rcs $@)
 AR_ECHO = echo "   AR     $@"
 
 DEP_ECHO = echo "   DEP    $@"
-DEP_CMD = set -e; $(CC) -MM $(CFLAGS)) $< > $@.tmp; \
+
+DEP_CMD = @set -e; \
+		$(CC) -MM $(CFLAGS)) $< > $@.tmp; \
 		sed 's,\($(*F)\)\.o[ :]*,$*.o $@ : ,g' < $@.tmp > $@; \
 		rm -rf $@.tmp
 

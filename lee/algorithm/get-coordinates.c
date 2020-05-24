@@ -57,7 +57,7 @@ int32_t grid_proc(int32_t argc, int8_t** argv)
 
 static int32_t grid_usage(void)
 {
-	util_puts("scene option:\n");
+	util_puts("grid option:\n");
 	util_puts("\ttype\tthe type value as below:\n");
 	util_puts("\t0\ttest hv buffer\n");
 
@@ -72,10 +72,10 @@ static lee_module_t grid_module = {
 
 static void PREP_INIT grid_constructor(void)
 {
-	lee_module_register(LEE_ALG_GRID, &grid_module);
+	lee_module_register(LEE_TYPE_ALG, LEE_ALG_GRID, &grid_module);
 }
 
 static void PREP_EXIT grid_destructor(void)
 {
-	lee_module_unregister(LEE_ALG_GRID);
+	lee_module_unregister(LEE_TYPE_ALG, LEE_ALG_GRID);
 }
