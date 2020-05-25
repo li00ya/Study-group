@@ -13,7 +13,7 @@ AR_ECHO = echo "   AR     $@"
 DEP_ECHO = echo "   DEP    $@"
 
 DEP_CMD = @set -e; \
-		$(CC) -MM $(CFLAGS)) $< > $@.tmp; \
+		$(CC) -MM $(CFLAGS) $< > $@.tmp; \
 		sed 's,\($(*F)\)\.o[ :]*,$*.o $@ : ,g' < $@.tmp > $@; \
 		rm -rf $@.tmp
 
