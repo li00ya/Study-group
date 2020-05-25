@@ -40,7 +40,8 @@ extra_cflags := -DPRODUCT_NAME=\"$(product)\" -DPRODUCT_VERSION=\"$(version)\"
 extra_cflags += -DBUILD_DATETIME=\"$(build_date)\"
 extra_cflags += $(addprefix -DCONFIG_LEE_, $(cfg_lee))
 
-CFLAGS += -Wall -O2 -g
+CFLAGS += -Wall -O2
+CFLAGS += -std=gnu99 -ffunction-sections -fdata-sections
 CFLAGS += -I. -I$(LEE_PATH)/include
 export CFLAGS
 
@@ -52,20 +53,14 @@ LDFLAGS += -lm -lpthread
 #LDFLAGS += -Wl,--gc-sections -lrt
 export LDFLAGS
 
-CROSS_COMPILE =
-AS = $(CROSS_COMPILE)as
-LD = $(CROSS_COMPILE)ld
-CC = $(CROSS_COMPILE)gcc
-CPP = $(CC) -E
-AR = $(CROSS_COMPILE)ar
-NM = $(CROSS_COMPILE)nm
+CROSS_COMPILE :=
 
-STRIP = $(CROSS_COMPILE)strip
-OBJCOPY = $(CROSS_COMPILE)objcopy
-OBJDUMP = $(CROSS_COMPILE)objdump
+override LD := $(CROSS_COMPILE)ld
+override CC := $(CROSS_COMPILE)gcc
+override AR := $(CROSS_COMPILE)ar
+override STRIP := $(CROSS_COMPILE)strip
 
-export AS LD CC CPP AR NM
-export STRIP OBJCOPY OBJDUMP
+export LD CC AR STRIP
 
 ###########################################################################################
 # directory configure
