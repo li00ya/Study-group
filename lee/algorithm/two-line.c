@@ -1,6 +1,7 @@
 #include "util/math.h"
 #include "util/types.h"
 #include "util/string.h"
+#include "api/mode.h"
 
 typedef struct
 {
@@ -19,7 +20,7 @@ static inline double vector_modulo(info_point_t* a)
 	return util_sqrt(a->x * a->x + a->y * a->y);
 }
 
-int32_t get_intersection(line_vector_t* line1, line_vector_t* line2, info_point_t* ret)
+static int32_t get_intersection(line_vector_t* line1, line_vector_t* line2, info_point_t* ret)
 {   
 	double p, q, delt;
 	info_point_t l1, l2;
@@ -43,7 +44,7 @@ int32_t get_intersection(line_vector_t* line1, line_vector_t* line2, info_point_
 }
 
 #define PI	3.1415926535898
-double get_angle(line_vector_t* line1, line_vector_t* line2)
+static double get_angle(line_vector_t* line1, line_vector_t* line2)
 {
 	double denominator, molecular, cos, thet;
 	info_point_t l1, l2;
@@ -64,7 +65,7 @@ double get_angle(line_vector_t* line1, line_vector_t* line2)
 	return thet > 90 ? 180 - thet : thet;
 }
 
-int32_t main(void)
+static int32_t cross_proc(int32_t ac, int8_t** av)
 {
 	info_point_t p1, p2, p3, p4, ret;
 	line_vector_t l1, l2;
@@ -90,5 +91,30 @@ int32_t main(void)
 
 	get_intersection(&l1, &l2, &ret);
 	util_puts("intersection %lf, %lf\n", ret.x, ret.y);
+
+	return 0;
 }
 
+static int32_t cross_usage(void)
+{
+	util_puts("cross option:\n");
+	util_puts("\t\n");
+
+	return 0;
+}
+
+static lee_module_t cross_module = {
+	.name = "cross",
+	.usage = cross_usage,
+	.proc = cross_proc,
+};
+
+static void PREP_INIT grid_constructor(void)
+{
+	lee_module_register(LEE_TYPE_ALG, LEE_ALG_CROSS, &cross_module);
+}
+
+static void PREP_EXIT grid_destructor(void)
+{
+	lee_module_unregister(LEE_TYPE_ALG, LEE_ALG_CROSS);
+}
