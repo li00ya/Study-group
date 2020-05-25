@@ -39,7 +39,7 @@ int32_t simplified_forward_intersection(info_point_t* r, info_point_t* h, info_p
 	return 0;
 }
 
-int32_t grid_proc(int32_t argc, int8_t** argv)
+static int32_t grid_proc(int32_t argc, int8_t** argv)
 {
 	info_point_t a, b, c;
 	double len = 1.8;
@@ -58,8 +58,7 @@ int32_t grid_proc(int32_t argc, int8_t** argv)
 static int32_t grid_usage(void)
 {
 	util_puts("grid option:\n");
-	util_puts("\ttype\tthe type value as below:\n");
-	util_puts("\t0\ttest hv buffer\n");
+	util_puts("\t\n");
 
 	return 0;
 }
