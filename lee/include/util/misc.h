@@ -10,6 +10,8 @@ void util_usleep(uint32_t us);
 
 void util_sleep(uint32_t sec);
 
+void util_fflush(void);
+
 #define POLL_FLAG_READ     1
 #define POLL_FLAG_WRITE    2
 
