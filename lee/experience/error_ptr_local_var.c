@@ -1,6 +1,7 @@
 #include "util/types.h"
 #include "util/string.h"
 #include "util/memory.h"
+#include "api/mode.h"
 
 typedef struct {
 	int* p;
@@ -45,7 +46,7 @@ static void test_mode2(int8_t* p)
 	p = &c;
 }
 
-int32_t main(void)
+static int32_t ptr_proc(int32_t argc, int8_t** argv)
 {
 	int8_t p = 0;
 
@@ -56,3 +57,27 @@ int32_t main(void)
 
 	return 0;
 }
+
+static int32_t ptr_usage(void)
+{
+	util_puts("ptr option:\n\n");
+
+	return 0;
+}
+
+static lee_module_t ptr_module = {
+	.name = "ptr",
+	.usage = ptr_usage,
+	.proc = ptr_proc,
+};
+
+static void PREP_INIT ptr_constructor(void)
+{
+	lee_module_register(LEE_TYPE_EXP, LEE_EXP_PTR, &ptr_module);
+}
+
+static void PREP_EXIT ptr_destructor(void)
+{
+	lee_module_unregister(LEE_TYPE_EXP, LEE_EXP_PTR);
+}
+

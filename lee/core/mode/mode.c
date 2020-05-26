@@ -24,7 +24,7 @@ static int32_t show_usage(int8_t* prog)
 	int32_t type, idx;
 	lee_module_t* module;
 
-	util_puts("usage %s module [option]\n", prog);
+	util_puts("usage %s <module name> [option]\n", prog);
 	util_puts("module name:\n\t");
 	for (type = 0; type < LEE_TYPE_MAX; type++) {
 		for (idx = 0; idx < LEE_MODE_MAX; idx++) {
