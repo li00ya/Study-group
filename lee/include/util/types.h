@@ -4,6 +4,11 @@
 #include <stdio.h>
 #include <stdint.h>
 
+//计算结构体成员相对于该结构体的偏移量
+#ifndef offsetof
+#define offsetof(TYPE, MEMBER)	((uint32_t)(uint64_t)&((TYPE *)0)->MEMBER)
+#endif
+
 #ifndef uvoid_t
 typedef unsigned long uvoid_t;
 #endif

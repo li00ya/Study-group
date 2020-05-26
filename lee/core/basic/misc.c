@@ -26,6 +26,11 @@ void util_sleep(uint32_t sec)
 	sleep(sec);
 }
 
+void util_fflush(void)
+{
+	setbuf(stdin, NULL);
+}
+
 int32_t util_poll(int32_t fd, uint32_t flag, uint32_t timeout)
 {
 	struct pollfd entry;
