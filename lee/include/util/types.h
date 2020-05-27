@@ -2,7 +2,12 @@
 #define _TYPES_H_
 
 #include <stdio.h>
+
+#define int8_t	sint8_t
 #include <stdint.h>
+#undef	int8_t
+
+#define int8_t char
 
 //计算结构体成员相对于该结构体的偏移量
 #ifndef offsetof
