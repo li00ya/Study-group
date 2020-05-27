@@ -35,12 +35,12 @@ static lee_module_t bit_module = {
 	.proc = test_bit_calcu,
 };
 
-static void PREP_INIT ptr_constructor(void)
+static void PREP_INIT bit_constructor(void)
 {
 	lee_module_register(LEE_TYPE_MAC, LEE_MAC_BIT, &bit_module);
 }
 
-static void PREP_EXIT ptr_destructor(void)
+static void PREP_EXIT bit_destructor(void)
 {
 	lee_module_unregister(LEE_TYPE_MAC, LEE_MAC_BIT);
 }

@@ -67,8 +67,9 @@ export LD CC AR STRIP
 ###########################################################################################
 
 include scripts/Makefile.include
-
-coredirs := $(wildcard $(LEE_PATH)/core/*)
+core_remove := $(LEE_PATH)/core/链接函数文件夹
+core_total := $(wildcard $(LEE_PATH)/core/*)
+coredirs := $(filter-out $(core_remove), $(core_total))
 coreobjs := $(addsuffix /$(ldobjs), $(coredirs))
 
 subdirs := $(strip $(coredirs))
