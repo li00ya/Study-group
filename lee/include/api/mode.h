@@ -8,6 +8,7 @@ enum {
 	LEE_TYPE_EXP,
 	LEE_TYPE_PRO,
 	LEE_TYPE_MAC,
+	LEE_TYPE_TEST,
 	LEE_TYPE_MAX,
 };
 
@@ -30,9 +31,11 @@ enum {
 
 enum {
 	LEE_MAC_BIT,
-	LEE_MAC_MAX,
 };
 
+enum {
+	LEE_TEST_PF,
+};
 
 typedef struct
 {
