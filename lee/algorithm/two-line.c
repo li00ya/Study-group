@@ -109,12 +109,12 @@ static lee_module_t cross_module = {
 	.proc = cross_proc,
 };
 
-static void PREP_INIT grid_constructor(void)
+static void PREP_INIT cross_constructor(void)
 {
 	lee_module_register(LEE_TYPE_ALG, LEE_ALG_CROSS, &cross_module);
 }
 
-static void PREP_EXIT grid_destructor(void)
+static void PREP_EXIT cross_destructor(void)
 {
 	lee_module_unregister(LEE_TYPE_ALG, LEE_ALG_CROSS);
 }

@@ -21,7 +21,7 @@ endif
 
 export PRODUCT_NAME=$(product)
 
-LEE_REMOVE := core include Process Test
+LEE_REMOVE := core include
 LEE_PATH := $(ROOT_PATH)/lee
 
 lee_available := $(wildcard lee/*)

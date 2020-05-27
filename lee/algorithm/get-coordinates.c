@@ -1,4 +1,5 @@
 #include "util/string.h"
+#include "util/memory.h"
 #include "util/math.h"
 #include "util/types.h"
 #include "api/mode.h"
@@ -20,7 +21,7 @@
 */
 
 
-int32_t simplified_forward_intersection(info_point_t* r, info_point_t* h, info_point_t* ret, double len)
+static int32_t simplified_forward_intersection(info_point_t* r, info_point_t* h, info_point_t* ret, double len)
 {
 	double tan;
 	double x = r->x - h->x;
@@ -43,6 +44,10 @@ static int32_t grid_proc(int32_t argc, int8_t** argv)
 {
 	info_point_t a, b, c;
 	double len = 1.8;
+
+	util_memset(&a, 0, sizeof(a));
+	util_memset(&b, 0, sizeof(b));
+	util_memset(&c, 0, sizeof(c));
 
 	a.x = 3;
 	a.y = 2;
