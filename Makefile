@@ -34,16 +34,15 @@ lee_total := $(filter-out $(LEE_REMOVE), $(lee_available))
 
 cfg_lee := $(shell echo $(lee_total) | tr a-z A-Z)
 
--DCONFIG_LEE_ :=
-
 extra_cflags := -DPRODUCT_NAME=\"$(product)\" -DPRODUCT_VERSION=\"$(version)\"
 extra_cflags += -DBUILD_DATETIME=\"$(build_date)\"
-extra_cflags += $(addprefix -DCONFIG_LEE_, $(cfg_lee))
+extra_cflags += $(addprefix -DCONFIG_LEE_TOTAL, $(cfg_lee))
 
-CFLAGS += -Wall -O2
-CFLAGS += -std=gnu99 -ffunction-sections -fdata-sections
-CFLAGS += -I. -I$(LEE_PATH)/include
-export CFLAGS
+PROG_CFLAGS += -Wall -O2
+PROG_CFLAGS += -std=gnu99 -ffunction-sections -fdata-sections
+PROG_CFLAGS += -I. -I$(LEE_PATH)/include
+PROG_CFLAGS += $(extra_cflags)
+export PROG_CFLAGS
 
 #generate core library
 top_lib := top.o
@@ -75,7 +74,8 @@ coreobjs := $(addsuffix /$(ldobjs), $(coredirs))
 subdirs := $(strip $(coredirs))
 subobjs := $(strip $(coreobjs))
 
-prog_target := $(addprefix lee/, $(lee_total))
+lee_target := $(addprefix lee/, $(lee_total))
+prog_target := $(wildcard prog/*)
 
 ###########################################################################################
 # generate programe
@@ -83,11 +83,17 @@ prog_target := $(addprefix lee/, $(lee_total))
 
 
 .PHONY: prepare all clean help upgrade FORCE
-.PHONY: prog_build prog_clean top_clean
+.PHONY: lee_build lee_clean prog_build prog_clean top_clean
 
-all : prepare prog_build
+all : prepare lee_build prog_build
 
-clean : top_clean prog_clean
+clean : top_clean lee_clean prog_clean
+
+lee_build : $(top_lib)
+	@for d in $(lee_target); do make $(gen)=$$d; done
+
+lee_clean:
+	@for d in $(lee_target); do make $(clean)=$$d; done
 
 prog_build : $(top_lib)
 	@for d in $(prog_target); do make $(gen)=$$d; done

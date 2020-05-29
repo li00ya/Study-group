@@ -6,7 +6,7 @@ build_obj := $(build_src:.c=.o)
 extra_objs :=
 
 build_target := $(src)/$(notdir $(src))
-ifeq ("$(origin target)", "command line")
+ifeq ("$(origin target)", "command line")	#make target=app_name指定生成的目标名
 build_target := $(src)/$(target)
 endif
 
