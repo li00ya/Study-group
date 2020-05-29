@@ -9,6 +9,8 @@
 
 #define int8_t char
 
+#define ALIGN_NUM(x)	__attribute__((aligned((x))))
+
 //计算结构体成员相对于该结构体的偏移量
 #ifndef offsetof
 #define offsetof(TYPE, MEMBER)	((uint32_t)(uint64_t)&((TYPE *)0)->MEMBER)

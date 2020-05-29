@@ -1,0 +1,1 @@
+objs += data.o

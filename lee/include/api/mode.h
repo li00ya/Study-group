@@ -20,6 +20,7 @@ enum {
 enum {
 	LEE_EXP_SYS,
 	LEE_EXP_PTR,
+	LEE_EXP_TERM,
 };
 
 enum {

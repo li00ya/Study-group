@@ -10,6 +10,9 @@ include scripts/Makefile.include
 subdirs := $(addprefix $(src)/, $(subdirs))
 subdirs := $(strip $(subdirs))
 subprog := $(notdir $(src))
+ifeq ("$(origin target)", "command line")
+subprog := $(target)
+endif
 
 .PHONY: __clean __garbagy $(subdirs)
 
