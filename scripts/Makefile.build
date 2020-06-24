@@ -4,7 +4,7 @@ objs :=
 subdirs :=
 
 #add current directory in include directory
-CFLAGS += -I$(src)
+PROG_CFLAGS += -I$(src)
 
 include $(src)/Makefile
 include scripts/Makefile.include

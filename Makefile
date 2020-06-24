@@ -45,8 +45,9 @@ PROG_CFLAGS += $(extra_cflags)
 export PROG_CFLAGS
 
 #generate core library
-top_lib := top.o
+top_lib := libtop.a
 export TOP_LIB=$(ROOT_PATH)/$(top_lib)
+export TOP_CMD = -L$(ROOT_PATH) -Wl,--whole-archive -ltop -Wl,--no-whole-archive
 
 LDFLAGS += -lm -lpthread
 #LDFLAGS += -Wl,--gc-sections -lrt
@@ -103,8 +104,8 @@ prog_clean:
 
 $(top_lib) : $(subdirs) FORCE
 	@for d in $(subdirs); do make $(build)=$$d; done
-	@$(LD_ECHO)
-	@$(LD) -r -o $(top_lib) $(subobjs)
+	@$(AR_ECHO)
+	@$(AR) rcs $(top_lib) $(subobjs)
 
 top_clean : $(subdirs)
 	@for d in $(subdirs); do make $(clean)=$$d; done
