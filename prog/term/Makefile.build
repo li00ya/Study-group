@@ -1,0 +1,8 @@
+test_path := $(ROOT_PATH)/lee
+
+PROG_CFLAGS += -I$(test_path)/include
+
+test_dirs := alg exp
+test_dirs := $(addprefix $(test_path)/, $(test_dirs))
+test_objs := $(addsuffix /$(ldobjs), $(test_dirs))
+#extra_objs += $(strip $(test_objs))

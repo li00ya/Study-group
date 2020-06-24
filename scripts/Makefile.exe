@@ -1,25 +1,41 @@
 
 src := $(obj)
+objs :=
+extra_objs :=
+subdirs :=
+subdirs_objs :=
 
+include scripts/Makefile.include
+
+ifneq ("$(objs)", "")
+build_obj := $(addprefix $(src)/, $(objs))
+subdirs := $(addprefix $(src)/, $(subdirs))
+subdirs_objs := $(addsuffix /$(ldobjs), $(subdirs))
+else
 build_src := $(wildcard $(src)/*.c)
 build_obj := $(build_src:.c=.o)
-extra_objs :=
+endif
 
 build_target := $(src)/$(notdir $(src))
 ifeq ("$(origin target)", "command line")	#make target=app_name指定生成的目标名
 build_target := $(src)/$(target)
 endif
 
-include scripts/Makefile.include
--include $(src)/Makefile.build
+PROG_CFLAGS += -I$(src)/include
+all_objs = $(subdirs_objs) $(build_obj) $(extra_objs)
 
-.PHONY : __build prepare
+.PHONY : __build prepare $(subdirs)
 
 __build : prepare $(build_target)
 
 $(build_target): $(build_obj) $(TOP_LIB) $(extra_objs)
 	@$(LD_ECHO)
-	@$(CC) -o $@ $^ $(LDFLAGS)
+	@$(CC) -o $@ $(TOP_CMD) $(all_objs) $(LDFLAGS)
+
+$(subdirs_objs) : $(subdirs)
+
+$(subdirs) :
+	@make $(build)=$@
 
 prepare:
 
