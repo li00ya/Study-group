@@ -105,7 +105,7 @@ prog_clean:
 $(top_lib) : $(subdirs) FORCE
 	@for d in $(subdirs); do make $(build)=$$d; done
 	@$(AR_ECHO)
-	@$(AR) rcs $(top_lib) $(subobjs)
+	@$(AR_CMD) $(subobjs)
 
 top_clean : $(subdirs)
 	@for d in $(subdirs); do make $(clean)=$$d; done
