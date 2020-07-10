@@ -6,9 +6,10 @@ CC_ECHO = echo "   CC     $*.o"
 CC_CMD = $(CC) -c $(PROG_CFLAGS) -D__NOTDIR_FILE__=\"$(notdir $<)\" -o $@ $<
 
 LD_ECHO = echo "   LD     $@" 
-LD_CMD = $(if $(strip $(obj-y)), $(LD) -r -o $@ $^, rm -rf $@; $(AR) rcs $@)
+LD_CMD = $(if $(strip $(obj-y)), $(LD) -o $@ -r $^, rm -rf $@; $(AR) rcs $@)
 
 AR_ECHO = echo "   AR     $@"
+AR_CMD = $(AR) rcs $@ $(PROG_ARFLAGS)
 
 DEP_ECHO = echo "   DEP    $@"
 

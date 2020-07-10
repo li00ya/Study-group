@@ -15,7 +15,7 @@ subdir_objs := $(addsuffix /$(ldobjs), $(subdirs))
 
 obj-y := $(objs) $(subdir_objs)
 
-build_obj := $(src)/builtin.o
+build_obj := $(src)/$(ldobjs)
 
 .PHONY: __build $(subdirs)
 
