@@ -7,6 +7,7 @@ subdirs_objs :=
 
 include scripts/Makefile.include
 
+-include $(src)/Makefile
 ifneq ("$(objs)", "")
 build_obj := $(addprefix $(src)/, $(objs))
 subdirs := $(addprefix $(src)/, $(subdirs))
@@ -22,15 +23,16 @@ build_target := $(src)/$(target)
 endif
 
 PROG_CFLAGS += -I$(src)/include
+
 all_objs = $(subdirs_objs) $(build_obj) $(extra_objs)
 
 .PHONY : __build prepare $(subdirs)
 
 __build : prepare $(build_target)
 
-$(build_target): $(build_obj) $(TOP_LIB) $(extra_objs)
+$(build_target) : $(all_objs) $(TOP_LIB)
 	@$(LD_ECHO)
-	@$(CC) -o $@ $(TOP_CMD) $(all_objs) $(LDFLAGS)
+	@$(CC) -o $@ $(all_objs) $(TOP_CMD) $(LDFLAGS)
 
 $(subdirs_objs) : $(subdirs)
 
