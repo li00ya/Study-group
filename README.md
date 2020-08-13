@@ -71,7 +71,12 @@ git add -A
 添加git仓库下所有的改动文件到缓冲区  
 
 git commit -m "add the note about modify"  
-提交代码到本地仓库，双引号里面的内容应是本次的修改说明  
+提交代码到本地仓库，双引号里面的内容应是本次的修改说明 
+
+修改git默认编辑器 Nano为 Vim
+git config --global core.editor vim
+
+git --amend 追加提交(被追加的提交没有被merge)
 
 git push origin name  
 推送自己的分支到远程仓库  
