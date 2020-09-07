@@ -15,6 +15,7 @@ enum {
 enum {
 	LEE_ALG_CROSS,
 	LEE_ALG_GRID,
+	LEE_ALG_LINK,
 };
 
 enum {
@@ -27,6 +28,8 @@ enum {
 	LEE_PRO_FIFO,
 	LEE_PRO_PIPE,
 	LEE_PRO_DATA,
+	LEE_PRO_TH,
+	LEE_PRO_STACK,
 	LEE_MODE_MAX,
 };
 
