@@ -123,8 +123,8 @@ help: prepare
 	@echo "command: make [PRODUCT=product] [ARCH=x86_64] [VERSION=1.0]"
 	@echo "product: optional.listed as below.default is develop"
 	@echo "         $(all_product)"
-	@echo "   arch: optional.listed as below.default is set by product cfg"
-	@echo "         $(all_arch)"
+	@echo "   lee: optional.listed as below.default is set by product cfg"
+	@echo "         $(lee_available)"
 	@echo "version: optional. the format is major.minor"
 	@echo ""
 

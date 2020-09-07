@@ -10,6 +10,7 @@
 #define int8_t char
 
 #define ALIGN_NUM(x)	__attribute__((aligned((x))))
+#define ARRY(x)			(sizeof(x) / sizeof(x[0]))
 
 //计算结构体成员相对于该结构体的偏移量
 #ifndef offsetof

@@ -15,6 +15,7 @@ enum {
 enum {
 	LEE_ALG_CROSS,
 	LEE_ALG_GRID,
+	LEE_ALG_LINK,
 };
 
 enum {

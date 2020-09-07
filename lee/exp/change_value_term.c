@@ -438,8 +438,7 @@ static int32_t tool_init(int32_t ac, int8_t** av)
 	}
 
 	tool_init_data();
-	tool_init_sym(info, tool_syms, sizeof(tool_syms) / sizeof(tool_syms[0]));
-
+	tool_init_sym(info, tool_syms, ARRY(tool_syms));
 	while (info->run) {
 		tool_proc_term(info, 10);
 	}
