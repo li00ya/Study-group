@@ -28,6 +28,7 @@ enum {
 	LEE_PRO_PIPE,
 	LEE_PRO_DATA,
 	LEE_PRO_TH,
+	LEE_PRO_STACK,
 	LEE_MODE_MAX,
 };
 
